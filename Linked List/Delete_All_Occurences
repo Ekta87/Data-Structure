@@ -1,0 +1,165 @@
+// Program for Deletion of all occurances of x from Linked List
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int info;
+    struct node *next;
+};
+struct node *GetNode()
+{
+    struct node *p;
+    p = (struct node *)malloc(sizeof(struct node));
+    return p;
+}
+char InsBeg(struct node **start, char x)
+{
+    struct node *p;
+    p = GetNode();
+    p->info = x;
+    p->next = *start;
+    *start = p;
+}
+char InsAft(struct node *q, char x)
+{
+    struct node *r, *p;
+    r = q->next;
+    p = GetNode();
+    p->info = x;
+    p->next = r;
+    q->next = p;
+}
+
+char InsEnd(struct node **start, char x)
+{
+    struct node *q, *p;
+    q = *start;
+    while (q->next != '\0')
+    {
+        q = q->next;
+    }
+    p = GetNode();
+    p->info = x;
+    p->next = '\0';
+    q->next = p;
+}
+char traverse(struct node **start)
+{
+    struct node *p;
+    p = (*start);
+    while (p != '\0')
+    {
+        printf("%c ", p->info);
+        p = p->next;
+    }
+    printf("\n");
+}
+char count(struct node *start)
+{
+    struct node *p = start;
+    int count = 0;
+    while (p != NULL)
+    {
+        count++;
+        p = p->next;
+    }
+    return count;
+}
+char delBeg(struct node **start)
+{
+    if (start == NULL)
+    {
+        printf("Invalid Deletion");
+        exit;
+    }
+    struct node *p;
+    p = (*start);
+    (*start) = (*start)->next;
+    int x = p->info;
+    free(p);
+    return x;
+}
+char delEnd(struct node **start)
+{
+    struct node *p, *q;
+    p = (*start);
+    q = NULL;
+    while (p->next != NULL)
+    {
+        q = p;
+        p = p->next;
+    }
+    q->next = NULL;
+    int x = p->info;
+    free(p);
+    return x;
+}
+char delAft(struct node **p)
+{
+    if ((*p) == NULL || (*p)->next == NULL)
+    {
+        printf("Invalid Deletion");
+        exit;
+    }
+    struct node *q, *r;
+    q = (*p)->next;
+    r = q->next;
+    (*p)->next = r;
+    int x = q->info;
+    free(q);
+    return x;
+}
+struct node* Del_AllOccurences(struct node** start){
+    struct node *p,*q;
+    p=(*start);
+    q=NULL;
+    while (p!=NULL)
+    {
+        if (p->info == 'x')
+        {
+            if (q==NULL)
+            {
+                p=p->next;
+                delBeg(&(*start));
+            }
+            else
+            {
+                p=p->next;
+                delAft(&q);
+            }
+        }
+        else
+        {
+            q=p;
+            p=p->next;
+        }
+    }
+    return (*start);
+}
+int main()
+{
+    struct node *start;
+    start = NULL;
+    InsBeg(&start, 'x');
+    InsBeg(&start, 'D');
+    InsBeg(&start, 'x');
+    InsBeg(&start, 'x');
+    InsBeg(&start, 'C');
+    InsBeg(&start, 'x');
+    InsBeg(&start, 'B');
+    InsBeg(&start, 'A');
+    InsBeg(&start, 'x');
+    InsBeg(&start, 'x');
+    printf("Linked list before: ");
+    traverse(&start);
+   
+    
+    printf("linked list after Deletion of x: ");
+    Del_AllOccurences(&start);
+    traverse(&start);
+    
+
+    return 0;
+}
