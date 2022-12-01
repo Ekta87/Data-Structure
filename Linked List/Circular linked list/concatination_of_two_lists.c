@@ -64,7 +64,7 @@ void ctraverse(struct node *cstart)
 }
 int concatenate(struct node **cstart1, struct node **cstart2)
 {
-    struct node *p, *q, *r;
+    struct node *p, *q;
     p = (*cstart1)->next;
     q = (*cstart2)->next;
     (*cstart1)->next = q;
@@ -74,7 +74,7 @@ int concatenate(struct node **cstart1, struct node **cstart2)
 
 int main()
 {
-    struct node *start1, *start2, *q;
+    struct node *start1, *start2;
     start1 = NULL;
     start2 = NULL;
     InsBeg(&start1, 30);
