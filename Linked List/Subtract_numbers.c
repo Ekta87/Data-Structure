@@ -94,7 +94,7 @@ struct node *Subtract_Numbers(struct node **start1, struct node **start2)
             q = q->next;
         }
     }
-    while (p != NULL && p->info != 0)
+    while (p != NULL)
     {
         total = p->info;
         InsBeg(&start, total);
