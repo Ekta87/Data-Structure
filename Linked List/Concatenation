@@ -1,0 +1,98 @@
+// Program for concatenation of Linear Linked List
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int info;
+    struct node *next;
+};
+struct node *GetNode()
+{
+    struct node *p;
+    p = (struct node *)malloc(sizeof(struct node));
+    return p;
+}
+void InsBeg(struct node **start, int x)
+{
+    struct node *p;
+    p = GetNode();
+    p->info = x;
+    p->next = (*start);
+    (*start) = p;
+}
+void InsEnd(struct node **start, int x)
+{
+    struct node *q, *p;
+    q = *start;
+    while (q->next != '\0')
+    {
+        q = q->next;
+    }
+    p = GetNode();
+    p->info = x;
+    p->next = '\0';
+    q->next = p;
+}
+void traverse(struct node **start)
+{
+    struct node *p;
+    p = (*start);
+    while (p != '\0')
+    {
+        printf("%d  ", p->info);
+        p = p->next;
+    }
+    printf("\n");
+}
+int concatenation(struct node **start1,struct node **start2){
+    struct node *p;
+    p=(*start1);
+    if ((*start1)== NULL)
+    {
+        (*start1)=(*start2);
+    }
+    else{
+    while (p->next!=NULL)
+    {
+        p=p->next;
+    }
+    p->next=(*start2);
+    }
+    return (*start1);
+}
+
+
+int main()
+{
+    struct node *start1,*start2;
+    start1 = NULL;
+    start2= NULL;
+    InsBeg(&start1,100);
+    InsBeg(&start1,200);
+    InsBeg(&start1,300);
+    InsBeg(&start1,400);
+    InsBeg(&start1,500);
+    InsEnd(&start1,600);
+    InsEnd(&start1,700);
+    InsEnd(&start1,800);
+    traverse(&start1);
+    InsBeg(&start2,10);
+    InsBeg(&start2,20);
+    InsBeg(&start2,30);
+    InsBeg(&start2,40);
+    InsBeg(&start2,50);
+    InsEnd(&start2,60);
+    InsEnd(&start2,70);
+    InsEnd(&start2,80);
+    traverse(&start2);
+    printf("After concatenation: ");
+    concatenation(&start1,&start2);
+   traverse(&start1);
+    
+   
+
+    return 0;
+}
+
