@@ -20,8 +20,17 @@ void InsBeg(struct node **start, int x)
     struct node *p;
     p = GetNode();
     p->info = x;
-    p->next = *start;
-    *start = p;
+    p->next = (*start);
+    (*start) = p;
+}
+void InsAft(struct node **q, int x)
+{
+    struct node *r, *p;
+    r = (*q)->next;
+    p = GetNode();
+    p->info = x;
+    p->next = r;
+    (*q)->next = p;
 }
 
 void InsEnd(struct node **start, int x)
@@ -37,10 +46,39 @@ void InsEnd(struct node **start, int x)
     p->next = '\0';
     q->next = p;
 }
-int traverse(struct node **start)
+int delBeg(struct node **start)
 {
+    if ((*start) == NULL)
+    {
+        printf("Invalid Deletion");
+        exit;
+    }
     struct node *p;
     p = (*start);
+    (*start) = (*start)->next;
+    int x = p->info;
+    free(p);
+    return x;
+}
+int delAft(struct node **p)
+{
+    if ((*p) == NULL || (*p)->next == NULL)
+    {
+        printf("Invalid Deletion");
+        exit;
+    }
+    struct node *q, *r;
+    q = (*p)->next;
+    r = q->next;
+    (*p)->next = r;
+    int x = q->info;
+    free(q);
+    return x;
+}
+int traverse(struct node *start)
+{
+    struct node *p;
+    p = (start);
     while (p != '\0')
     {
         printf("%c  ", p->info);
@@ -48,39 +86,67 @@ int traverse(struct node **start)
     }
     printf("\n");
 }
+
 void Vowel_consonent(struct node **start)
 {
-    struct node *p, *nstart;
-    p = (*start);
-    nstart = NULL;
-    while (p != NULL)
+    struct node *p, *q, *r;
+    p = NULL;
+    r = NULL;
+    q = (*start);
+    int x;
+    while (q != NULL)
     {
-        if (p->info == 'a' || p->info == 'e' || p->info == 'i' || p->info == 'o' || p->info == 'u' || p->info == 'A' || p->info == 'E' || p->info == 'I' || p->info == 'O' || p->info == 'U')
+        if (q->info == 'a' || q->info == 'e' || q->info == 'i' || q->info == 'o' || q->info == 'u' || q->info == 'A' || q->info == 'E' || q->info == 'I' || q->info == 'O' || q->info == 'U')
         {
-            InsBeg(&nstart, p->info);
+            q = q->next;
+            if (p == NULL)
+            {
+                if (r == NULL)
+                {
+                    x = delBeg(&(*start));
+                    InsBeg(&(*start), x);
+                    p = (*start);
+                    r = p;
+                }
+                else
+                {
+                    x = delAft(&r);
+                    InsBeg(&(*start), x);
+                    p = (*start);
+                }
+            }
+            else
+            {
+                x = delAft(&r);
+                InsAft(&p, x);
+                if (p == r)
+                {
+                    r = r->next;
+                }
+                p = p->next;
+            }
         }
         else
         {
-            InsEnd(&nstart, p->info);
+            r = q;
+            q = q->next;
         }
-        p = p->next;
     }
-    traverse(&nstart);
+    traverse(*start);
 }
 int main()
 {
     struct node *start;
     start = NULL;
-    InsBeg(&start, 'a');
-    InsBeg(&start, 'c');
-    InsBeg(&start, 'e');
-    InsBeg(&start, 'w');
-    InsBeg(&start, 'i');
-    InsEnd(&start, 'h');
+    InsBeg(&start, 'A');
+    InsEnd(&start, 'i');
     InsEnd(&start, 'o');
     InsEnd(&start, 'u');
+    InsEnd(&start, 'k');
+    InsEnd(&start, 'a');
+    // InsEnd(&start, 'a');
     printf("Linked list: ");
-    traverse(&start);
+    traverse(start);
 
     printf("Arrangement of vowels and consonents: ");
     Vowel_consonent(&start);
