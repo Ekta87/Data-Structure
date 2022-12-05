@@ -37,11 +37,24 @@ void InsEnd(struct node **start, int x)
     q->next = p;
 }
 
+void delBeg(struct node **start)
+{
+    if (start == NULL)
+    {
+        printf("Invalid Deletion");
+        exit;
+    }
+    struct node *p;
+    p = (*start);
+    (*start) = (*start)->next;
+    int x = p->info;
+    free(p);
+}
+
 int delAft(struct node **p)
 {
     if ((*p) == NULL || (*p)->next == NULL)
     {
-        printf("Invalid Deletion");
         exit;
     }
     struct node *q, *r;
@@ -65,21 +78,49 @@ void traverse(struct node *start)
     printf("\n");
 }
 
+int count(struct node *start)
+{
+    struct node *p = start;
+    int count = 0;
+    while (p != NULL)
+    {
+        count++;
+        p = p->next;
+    }
+    return count;
+}
+
 void Del_kth_node(struct node **start, int n)
 {
     struct node *p, *q;
     p = (*start);
     q = (*start);
-    for (int i = 0; i < n; i++)
+    if (n > count(*start))
     {
-        q = q->next;
+        printf("Void Input");
+        exit;
     }
-    while (q->next != NULL)
+    else
     {
-        p = p->next;
-        q = q->next;
+        for (int i = 0; i < n; i++)
+        {
+            q = q->next;
+        }
     }
-    delAft(&p);
+    if (q == NULL)
+    {
+        delBeg(&(*start));
+    }
+    else
+    {
+        while (q->next != NULL)
+        {
+            p = p->next;
+            q = q->next;
+        }
+        delAft(&p);
+    }
+    // traverse(*start);
 }
 
 int main()
@@ -94,7 +135,7 @@ int main()
     InsEnd(&start, 600);
     InsEnd(&start, 700);
     InsEnd(&start, 800);
-    printf("Linked list before insertion: ");
+    printf("Linked list: ");
     traverse(start);
     int pos;
     printf("Enter Kth position from last:  ");
