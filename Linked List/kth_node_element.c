@@ -77,13 +77,20 @@ void kth_node(struct node **start, int n)
             q = q->next;
         }
     }
-    while (q->next != NULL)
+    if (q == NULL)
     {
-        p = p->next;
-        q = q->next;
+        x = p->info;
     }
-    p = p->next;
-    x = p->info;
+    else
+    {
+        while (q->next != NULL)
+        {
+            p = p->next;
+            q = q->next;
+        }
+        p = p->next;
+        x = p->info;
+    }
     printf("%d", x);
 }
 
