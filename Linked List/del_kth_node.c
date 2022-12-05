@@ -120,7 +120,6 @@ void Del_kth_node(struct node **start, int n)
         }
         delAft(&p);
     }
-    // traverse(*start);
 }
 
 int main()
