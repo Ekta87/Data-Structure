@@ -93,7 +93,7 @@ void Vowel_consonent(struct node **start)
     p = NULL;
     r = NULL;
     q = (*start);
-    int x;
+    char x;
     while (q != NULL)
     {
         if (q->info == 'a' || q->info == 'e' || q->info == 'i' || q->info == 'o' || q->info == 'u' || q->info == 'A' || q->info == 'E' || q->info == 'I' || q->info == 'O' || q->info == 'U')
