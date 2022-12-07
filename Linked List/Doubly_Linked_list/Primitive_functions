@@ -1,0 +1,261 @@
+// Program for Doubly linked list Primitive operations
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int info;
+    struct node *next;
+    struct node *prev;
+};
+struct node *GetNode()
+{
+    struct node *p;
+    p = (struct node *)malloc(sizeof(struct node));
+    return p;
+}
+struct node *InsBeg(struct node **dstart, int x)
+{
+    struct node *p;
+    p = GetNode();
+    p->info = x;
+    p->prev = NULL;
+    p->next = (*dstart);
+
+    if ((*dstart) != NULL)
+    {
+        (*dstart)->prev = p;
+    }
+    (*dstart) = p;
+    return (*dstart);
+}
+void InsEnd(struct node **dstart, int x)
+{
+    struct node *q, *p;
+    p = GetNode();
+    p->info = x;
+    p->next = NULL;
+    q = (*dstart);
+    if ((*dstart) != NULL)
+    {
+        while (q->next != NULL)
+        {
+            q = q->next;
+        }
+        q->next = p;
+        p->prev = q;
+    }
+    else
+    {
+        p->prev = NULL;
+        (*dstart) = p;
+    }
+}
+
+struct node *InsBefore(struct node **dstart, struct node *q, int x)
+{
+    struct node *p, *r;
+    p = GetNode();
+    p->info = x;
+    if (q->prev == NULL)
+    {
+        InsBeg(&(*dstart), x);
+    }
+    else
+    {
+        r = q->prev;
+        r->next = p;
+        p->prev = r;
+        p->next = q;
+        q->prev = p;
+    }
+    return (*dstart);
+}
+
+struct node *InsAft(struct node **dstart, struct node *q, int x)
+{
+    struct node *p, *r;
+    p = GetNode();
+    p->info = x;
+    r = q->next;
+    p->next = r;
+    q->next = p;
+    p->prev = q;
+    if (r != NULL)
+    {
+        r->prev = p;
+    }
+    return (*dstart);
+}
+struct node *DelBeg(struct node **dstart)
+{
+    struct node *p;
+    int x;
+    if ((*dstart) == NULL)
+    {
+        printf("Void Deletion");
+        exit;
+    }
+    p = (*dstart);
+    (*dstart) = p->next;
+    (*dstart)->prev = NULL;
+    p->next = NULL;
+    x = p->info;
+    free(p);
+    return (*dstart);
+}
+struct node *DelEnd(struct node **dstart)
+{
+    struct node *p, *q;
+    int x;
+    p = (*dstart);
+    while (p->next != NULL)
+    {
+        p = p->next;
+    }
+    q = p->prev;
+    q->next = NULL;
+    x = p->info;
+    free(p);
+    return (*dstart);
+}
+
+struct node *DelBefore(struct node **dstart, struct node *q)
+{
+    struct node *p, *r;
+    p = q->prev;
+    r = p->prev;
+    r->next = q;
+    q->prev = r;
+    int x;
+    x = p->info;
+    free(p);
+    return (*dstart);
+}
+
+struct node *DelAft(struct node **dstart, struct node *q)
+{
+    struct node *p, *r;
+    p = q->next;
+    r = p->next;
+    q->next = r;
+    if (r != NULL)
+    {
+        r->prev = q;
+    }
+    int x;
+    x = p->info;
+    free(p);
+    return (*dstart);
+}
+void dtraverse(struct node *dstart)
+{
+    struct node *p, *q;
+    p = dstart;
+
+    while (p != NULL)
+    {
+        printf("%d  ", p->info);
+        p = p->next;
+    }
+    printf("\n");
+}
+int count(struct node **dstart)
+{
+    struct node *p;
+    p = (*dstart);
+    int c = 0;
+    while (p != NULL)
+    {
+        p = p->next;
+        c++;
+    }
+    return c;
+}
+
+int main()
+{
+    struct node *start, *start1, *start2;
+    start = NULL;
+    start1 = NULL;
+    InsBeg(&start, 30);
+    InsBeg(&start, 70);
+    InsBeg(&start, 50);
+    InsBeg(&start, 10);
+    InsEnd(&start, 180);
+    InsEnd(&start, 170);
+    printf("Doubly Linked List: ");
+    dtraverse(start);
+    struct node *p;
+    p = start;
+    int pos, x;
+    printf("Enter position of insertion and element: ");
+    scanf("%d %d", &pos, &x);
+    printf("Doubly Linked List after Insertion: ");
+    if (pos == 1)
+    {
+        start1 = InsBeg(&start, x);
+    }
+    else if (pos > count(&start) + 1)
+    {
+        printf("void Insertion");
+    }
+    else if ((pos > count(&start)) && (pos < count(&start) + 2))
+    {
+        {
+            for (int i = 1; i < pos - 1; i++)
+            {
+                p = p->next;
+            }
+            start1 = InsAft(&start, p, x);
+        }
+    }
+    else
+    {
+        for (int i = 1; i < pos; i++)
+        {
+            p = p->next;
+        }
+        start1 = InsBefore(&start, p, x);
+    }
+
+    dtraverse(start1);
+
+    struct node *q;
+    q = start;
+    int pos1;
+    printf("Enter position of deletion: ");
+    scanf("%d", &pos1);
+    printf("Doubly Linked List after Deletion: ");
+    start2 = NULL;
+    if (pos1 == 1)
+    {
+        start2 = DelBeg(&start);
+    }
+    else if (pos1 > count(&start))
+    {
+        printf("void deletion");
+    }
+    else if ((pos1 > count(&start) - 1) && (pos1 < count(&start) + 1))
+    {
+        for (int i = 1; i < (pos1 - 1); i++)
+        {
+            q = q->next;
+        }
+        start2 = DelAft(&start, q);
+    }
+    else
+    {
+        for (int i = 1; i <= pos1; i++)
+        {
+            q = q->next;
+        }
+        start2 = DelBefore(&start, q);
+    }
+    dtraverse(start2);
+    printf("Doubly Linked list After end deletion: ");
+    start2 = DelEnd(&start);
+    dtraverse(start2);
+    return 0;
+}
