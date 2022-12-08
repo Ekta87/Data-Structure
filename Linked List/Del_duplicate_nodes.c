@@ -87,9 +87,16 @@ struct node *Del_duplicate_nodes(struct node **start)
                 q = q->next;
             }
         }
-        p = p->next;
-        r = p;
-        q = p->next;
+         if (p->next !=NULL)
+        {
+            p = p->next;
+            r = p;
+            q = p->next;
+        }
+        else 
+        {
+            break;
+        }
     }
     traverse(*start);
 }
