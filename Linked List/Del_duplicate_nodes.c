@@ -71,7 +71,7 @@ struct node *Del_duplicate_nodes(struct node **start)
     p = (*start);
     r = (*start);
     q = (*start)->next;
-    while (q != NULL)
+    while (p != NULL)
     {
 
         while (q != NULL)
