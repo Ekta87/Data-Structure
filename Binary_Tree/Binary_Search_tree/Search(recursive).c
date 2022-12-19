@@ -79,7 +79,6 @@ struct node *BinarySearch(struct node *t, int key)
         else
         {
             break;
-            ;
         }
     }
     return t;
