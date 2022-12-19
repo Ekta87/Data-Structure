@@ -1,4 +1,4 @@
-// write a program to implement Insertion and Search operation in BST (Iterative)
+// write a program to implement Insertion and Search operation in BST (recursive)
 
 #include <stdio.h>
 #include <stdlib.h>
