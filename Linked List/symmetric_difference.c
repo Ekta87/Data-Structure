@@ -41,13 +41,13 @@ void InsEnd(struct node **start, int x)
     }
     else
     {
-        while (q->next != '\0')
+        while (q->next != NULL)
         {
             q = q->next;
         }
         p = GetNode();
         p->info = x;
-        p->next = '\0';
+        p->next = NULL;
         q->next = p;
     }
 }
@@ -55,7 +55,7 @@ void traverse(struct node **start)
 {
     struct node *p;
     p = (*start);
-    while (p != '\0')
+    while (p != NULL)
     {
         printf("%d  ", p->info);
         p = p->next;
